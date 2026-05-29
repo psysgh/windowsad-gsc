@@ -3,6 +3,7 @@ import { prisma } from "@/lib/db";
 import { getPhase, getShuffledOptions, PHASES } from "@/lib/phases";
 import { buildDataset } from "@/lib/seedDataset";
 import { SCORING } from "@/lib/scoring";
+import { apiError } from "@/lib/apiError";
 
 export const runtime = "nodejs";
 
@@ -14,6 +15,7 @@ interface PhasePayload {
 }
 
 export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
+  try {
   const body = (await req.json().catch(() => ({}))) as PhasePayload;
   const mission = await prisma.mission.findUnique({
     where: { id: params.id },
@@ -197,4 +199,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
   }
 
   return NextResponse.json({ error: "ação inválida" }, { status: 400 });
+  } catch (e) {
+    return apiError(e, "POST /api/missions/[id]/phase");
+  }
 }

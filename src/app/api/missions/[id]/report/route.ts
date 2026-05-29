@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { buildReport } from "@/lib/reportBuilder";
+import { apiError } from "@/lib/apiError";
 
 export const runtime = "nodejs";
 
 export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
+  try {
   const mission = await prisma.mission.findUnique({
     where: { id: params.id },
     include: {
@@ -36,4 +38,7 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
     mission.evidences
   );
   return NextResponse.json(report);
+  } catch (e) {
+    return apiError(e, "GET /api/missions/[id]/report");
+  }
 }

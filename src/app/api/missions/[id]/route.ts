@@ -3,10 +3,12 @@ import { prisma } from "@/lib/db";
 import { getPhase } from "@/lib/phases";
 import { buildDataset } from "@/lib/seedDataset";
 import { serializePhase } from "@/types/mission";
+import { apiError } from "@/lib/apiError";
 
 export const runtime = "nodejs";
 
 export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
+  try {
   const mission = await prisma.mission.findUnique({
     where: { id: params.id },
     include: {
@@ -64,19 +66,26 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
       output: a.output
     }))
   });
+  } catch (e) {
+    return apiError(e, "GET /api/missions/[id]");
+  }
 }
 
 export async function DELETE(_req: NextRequest, { params }: { params: { id: string } }) {
-  const mission = await prisma.mission.findUnique({ where: { id: params.id } });
-  if (!mission) return NextResponse.json({ error: "Missão não encontrada" }, { status: 404 });
-  if (mission.status !== "in_progress") {
-    return NextResponse.json({ ok: true, alreadyFinal: true });
+  try {
+    const mission = await prisma.mission.findUnique({ where: { id: params.id } });
+    if (!mission) return NextResponse.json({ error: "Missão não encontrada" }, { status: 404 });
+    if (mission.status !== "in_progress") {
+      return NextResponse.json({ ok: true, alreadyFinal: true });
+    }
+    await prisma.mission.update({
+      where: { id: mission.id },
+      data: { status: "aborted", endedAt: new Date() }
+    });
+    return NextResponse.json({ ok: true });
+  } catch (e) {
+    return apiError(e, "DELETE /api/missions/[id]");
   }
-  await prisma.mission.update({
-    where: { id: mission.id },
-    data: { status: "aborted", endedAt: new Date() }
-  });
-  return NextResponse.json({ ok: true });
 }
 
 function safeParse(s: string): unknown {

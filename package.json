@@ -4,12 +4,15 @@
   "private": true,
   "description": "Simulação educacional de exploração de Active Directory em ambiente de operação de estação terrestre de satélites — FIAP Global Solution / Offensive Security",
   "scripts": {
+    "predev": "prisma migrate deploy",
     "dev": "next dev",
+    "prebuild": "prisma migrate deploy",
     "build": "next build",
+    "prestart": "prisma migrate deploy",
     "start": "next start",
     "lint": "next lint",
-    "db:migrate": "prisma migrate dev --name init",
-    "db:reset": "prisma migrate reset --force --skip-seed && prisma migrate dev --name init",
+    "db:migrate": "prisma migrate deploy",
+    "db:reset": "prisma migrate reset --force --skip-seed",
     "db:studio": "prisma studio",
     "postinstall": "prisma generate"
   },

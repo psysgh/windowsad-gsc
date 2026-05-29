@@ -4,10 +4,12 @@ import { getPhase, getShuffledOptions } from "@/lib/phases";
 import { buildDataset } from "@/lib/seedDataset";
 import { processTerminalInput } from "@/lib/terminalEngine";
 import { SCORING } from "@/lib/scoring";
+import { apiError } from "@/lib/apiError";
 
 export const runtime = "nodejs";
 
 export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
+  try {
   const body = await req.json().catch(() => ({}));
   const input = String(body?.input ?? "").trim();
   if (!input) return NextResponse.json({ error: "input vazio" }, { status: 400 });
@@ -129,4 +131,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
     options: optionsToReturn,
     state: { score: newScore, detection: newDetection, budget: newBudget }
   });
+  } catch (e) {
+    return apiError(e, "POST /api/missions/[id]/terminal");
+  }
 }

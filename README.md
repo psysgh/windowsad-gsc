@@ -16,16 +16,27 @@ Cada aluno roda a aplicação na própria máquina. Na tela inicial informa **no
 # 1) Instalar dependências (gera o cliente Prisma automaticamente)
 npm install
 
-# 2) Criar e migrar o banco SQLite local
-npx prisma migrate dev --name init
-
-# 3) Subir o servidor
+# 2) Subir o servidor — o banco SQLite é criado e migrado automaticamente
 npm run dev
 ```
 
 A aplicação inicia em `http://localhost:3000`.
 
-> Requisitos: Node.js 18.18+ e npm. Sem Docker, sem APIs externas obrigatórias.
+> Requisitos: **Node.js 18.18+** e npm.
+> **Funciona igual em macOS, Linux e Windows** (PowerShell ou CMD).
+> Sem Docker, sem APIs externas obrigatórias.
+
+### O banco é criado sozinho
+
+O script `predev` do `package.json` roda `prisma migrate deploy` automaticamente antes do `next dev`, criando o arquivo `prisma/dev.db` e aplicando todas as migrações. Você não precisa rodar nenhum comando do Prisma manualmente.
+
+Se algo der errado e a aplicação reclamar de **"Banco de dados não inicializado"** ou **"Unexpected end of JSON input"**, rode manualmente:
+
+```bash
+npm run db:migrate
+```
+
+E depois `npm run dev` de novo.
 
 ## 3. Tela inicial
 

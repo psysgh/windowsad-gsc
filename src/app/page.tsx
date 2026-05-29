@@ -82,14 +82,31 @@ export default function HomePage() {
           studentName: `${cleanName} — RM ${cleanRm}`
         })
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data?.error || "Falha ao iniciar missão");
+
+      // Lê resposta como texto primeiro — se o servidor devolveu HTML
+      // (página de erro do Next.js), conseguimos detectar e mostrar
+      // mensagem útil em vez de "Unexpected end of JSON input".
+      const raw = await res.text();
+      let data: { id?: string; error?: string; kind?: string } = {};
+      try {
+        data = raw ? JSON.parse(raw) : {};
+      } catch {
+        throw new Error(
+          res.status === 503 || raw.includes("does not exist") || raw.includes("no such table")
+            ? "Banco de dados não inicializado. Pare o servidor (Ctrl+C) e rode 'npm run db:migrate' antes de rodar 'npm run dev' de novo."
+            : `Servidor devolveu resposta inválida (HTTP ${res.status}). Veja o terminal onde rodou 'npm run dev' para detalhes.`
+        );
+      }
+
+      if (!res.ok) throw new Error(data?.error || `Falha ao iniciar missão (HTTP ${res.status})`);
+      if (!data?.id) throw new Error("Resposta inesperada do servidor.");
+
       try {
         localStorage.setItem("gs:lastMission", data.id);
       } catch {}
       router.push(`/mission/${data.id}`);
     } catch (e) {
-      setError(e instanceof Error ? e.message : "erro");
+      setError(e instanceof Error ? e.message : "erro desconhecido");
       setBusy(false);
     }
   }
