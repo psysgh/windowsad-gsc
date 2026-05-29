@@ -1,0 +1,71 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Mission {
+  id           String     @id @default(cuid())
+  seed         String
+  studentName  String?
+  startedAt    DateTime   @default(now())
+  endedAt      DateTime?
+  status       String     @default("in_progress")
+  currentPhase Int        @default(1)
+  maxPhase     Int        @default(1)
+  score        Float      @default(0)
+  detection    Float      @default(0)
+  budget       Float      @default(100)
+  flags        String     @default("[]")
+  phases       PhaseRun[]
+  actions      Action[]
+  evidences    Evidence[]
+}
+
+model PhaseRun {
+  id              String    @id @default(cuid())
+  missionId       String
+  phaseNumber     Int
+  enteredAt       DateTime  @default(now())
+  exitedAt        DateTime?
+  attempts        Int       @default(0)
+  chosenOptionId  String?
+  correct         Boolean?
+  justification   String?
+  interpretationQ String?
+  interpretationA String?
+  scoreDelta      Float     @default(0)
+  detectionDelta  Float     @default(0)
+  budgetDelta     Float     @default(0)
+  mission         Mission   @relation(fields: [missionId], references: [id], onDelete: Cascade)
+
+  @@index([missionId])
+}
+
+model Action {
+  id        String   @id @default(cuid())
+  missionId String
+  at        DateTime @default(now())
+  phase     Int
+  kind      String
+  input     String
+  output    String
+  mission   Mission  @relation(fields: [missionId], references: [id], onDelete: Cascade)
+
+  @@index([missionId])
+}
+
+model Evidence {
+  id         String   @id @default(cuid())
+  missionId  String
+  phase      Int
+  label      String
+  payload    String
+  unlockedAt DateTime @default(now())
+  mission    Mission  @relation(fields: [missionId], references: [id], onDelete: Cascade)
+
+  @@index([missionId])
+}
