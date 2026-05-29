@@ -18,7 +18,8 @@ export const phase03: PhaseDefinition = {
       ``,
       `O filtro LDAP que você escolher define se você passa despercebido ou se acende a árvore de Natal no SIEM.`,
       ``,
-      `👉 Comando esperado: Get-DomainUser`
+      `💡 Tanto cmdlets do RSAT quanto módulos pós-exploração (PowerView) servem aqui.`,
+      `   ('help' lista os comandos disponíveis no console)`
     ].join("\n"),
   expectedCommand: "Get-DomainUser",
   acceptedCommands: ["Get-ADUser"],

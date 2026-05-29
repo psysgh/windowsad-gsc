@@ -15,7 +15,8 @@ export const phase02: PhaseDefinition = {
       `🎯 Localizar esse DC é pré-requisito para tudo que vem depois: AS-REP, Kerberoast, DCSync, Golden Ticket.`,
       `Sem o nome certo, nenhum desses ataques funciona.`,
       ``,
-      `👉 Comando esperado: nltest`
+      `💡 Lembre-se das ferramentas nativas do Windows para sondar canal seguro e DCs.`,
+      `   (digite 'help' no terminal para ver os comandos conhecidos do console)`
     ].join("\n"),
   expectedCommand: "nltest",
   options: [

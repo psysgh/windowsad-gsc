@@ -18,7 +18,7 @@ export const phase10: PhaseDefinition = {
       ``,
       `🤔 Não é uma decisão trivial. Você vai responder uma pergunta no fim: por que escolheu a sua?`,
       ``,
-      `👉 Comando esperado: wmiexec.py  (psexec.py é caminho válido, com mais ruído)`
+      `💡 A impacket tem ferramentas para os dois fluxos. Use Kerberos do cache (-k -no-pass) — você já tem o ticket.`
     ].join("\n"),
   expectedCommand: "wmiexec.py",
   acceptedCommands: ["psexec.py"],

@@ -23,7 +23,7 @@ export const phase08: PhaseDefinition = {
       ``,
       `📝 Antes de avançar, você precisará justificar por que escolheu o caminho que escolheu.`,
       ``,
-      `👉 Comando esperado: bloodhound-python`
+      `💡 Você está num laptop fora do domínio — use a versão Python do ingestor BloodHound.`
     ].join("\n"),
   expectedCommand: "bloodhound-python",
   requiresJustification: true,

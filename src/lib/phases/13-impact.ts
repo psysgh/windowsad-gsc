@@ -19,7 +19,7 @@ export const phase13: PhaseDefinition = {
       ``,
       `❓ Você vai fechar respondendo: dos sistemas comprometidos, quais 3 trariam maior impacto sobre a missão?`,
       ``,
-      `👉 Comando esperado: psexec.py  (wmiexec.py é caminho válido e mais limpo)`
+      `💡 Use uma das ferramentas de execução remota da impacket com -k -no-pass — você tem o Golden Ticket no cache.`
     ].join("\n"),
   expectedCommand: "psexec.py",
   acceptedCommands: ["wmiexec.py"],

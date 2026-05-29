@@ -18,7 +18,7 @@ export const phase04: PhaseDefinition = {
       ``,
       `Cada SPN encontrado vira munição para Kerberoast na próxima fase.`,
       ``,
-      `👉 Comando esperado: Get-ADUser`
+      `💡 Filtre por servicePrincipalName e exporte description — você quer o atributo SPN, não apenas nomes.`
     ].join("\n"),
   expectedCommand: "Get-ADUser",
   acceptedCommands: ["Get-DomainUser"],

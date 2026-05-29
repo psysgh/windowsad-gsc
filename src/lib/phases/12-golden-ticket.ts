@@ -17,7 +17,7 @@ export const phase12: PhaseDefinition = {
       ``,
       `📝 Antes de avançar, justifique sua escolha de lifetime/ferramenta.`,
       ``,
-      `👉 Comando esperado: ticketer.py  (caminho alternativo: mimikatz com PTT, mais barulhento)`
+      `💡 A impacket tem a ferramenta de forja offline; o caminho via Mimikatz com PTT existe mas pega AV.`
     ].join("\n"),
   expectedCommand: "ticketer.py",
   requiresJustification: true,

@@ -18,7 +18,8 @@ export const phase06: PhaseDefinition = {
       `🔇 Direcionar o pedido a UM SPN gera UM evento 4769. Pedir "tudo" gera uma chuva — e o SOC enxerga.`,
       `   Antes de fechar a fase, responda à pergunta de interpretação sobre por que pedir 1×1 é melhor que pedir tudo.`,
       ``,
-      `👉 Comando esperado: GetUserSPNs.py  (caminho alternativo: Rubeus)`
+      `💡 Existe a ferramenta clássica da impacket e uma alternativa em C# para host ingressado.`,
+      `   O importante é direcionar a um único SPN.`
     ].join("\n"),
   expectedCommand: "GetUserSPNs.py",
   acceptedCommands: ["Rubeus"],

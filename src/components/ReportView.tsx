@@ -273,7 +273,7 @@ function PhaseCard({ phase: p }: { phase: PhaseReportLite }) {
         <dt>Opção escolhida</dt>
         <dd>
           {p.chosenOptionText
-            ? <span><strong>({p.chosenOptionId?.toUpperCase()})</strong> <span className="mono" style={{ fontSize: 11 }}>{p.chosenOptionText}</span></span>
+            ? <span className="mono" style={{ fontSize: 11 }}>{p.chosenOptionText}</span>
             : "—"}
         </dd>
         <dt>Δ Score · Detecção · Orçamento</dt>

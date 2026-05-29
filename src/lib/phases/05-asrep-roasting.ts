@@ -18,7 +18,8 @@ export const phase05: PhaseDefinition = {
       `⚠️ Cuidado: pedir AS-REP para a lista inteira do domínio é diferente de pedir para 1 alvo.`,
       `   Volume gera ruído. Antes de avançar, você precisará explicar por escrito por que escolheu sua técnica.`,
       ``,
-      `👉 Comando esperado: GetNPUsers.py  (caminho alternativo: Rubeus em host ingressado)`
+      `💡 Há ferramentas da impacket para isso a partir do seu laptop, e equivalentes para host ingressado.`,
+      `   Pense em qual fluxo gera menos pegada na sua condição atual.`
     ].join("\n"),
   expectedCommand: "GetNPUsers.py",
   acceptedCommands: ["Rubeus"],

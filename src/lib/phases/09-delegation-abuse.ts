@@ -17,8 +17,8 @@ export const phase09: PhaseDefinition = {
       `   em nome do administrator, válido para esse serviço. Ou seja: dá para se apresentar como admin`,
       `   sem nunca ter conhecido a senha do admin.`,
       ``,
-      `👉 Comando esperado: Get-DomainComputer`,
-      `   (caminho alternativo: enumerar delegação unconstrained — mais barulhento e exige coerção SMB)`
+      `💡 Para enxergar a relação, comece pelos objetos computer do domínio com filtros de delegação.`,
+      `   Há um caminho alternativo via unconstrained delegation (mais barulhento, exige coerção SMB).`
     ].join("\n"),
   expectedCommand: "Get-DomainComputer",
   options: [

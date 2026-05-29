@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
-import { getPhase } from "@/lib/phases";
+import { getPhase, getShuffledOptions } from "@/lib/phases";
 import { buildDataset } from "@/lib/seedDataset";
 import { processTerminalInput } from "@/lib/terminalEngine";
 import { SCORING } from "@/lib/scoring";
@@ -72,13 +72,19 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
       output = "";
       kind = "evidence";
       break;
-    case "phase_command":
+    case "phase_command": {
       output = revisit
         ? `[*] Reabrindo opções de ${result.action.command} — reconsulta sem custo.`
         : `[*] Disparando ${result.action.command} — selecione a invocação correta.`;
       kind = "options_request";
-      optionsToReturn = phaseDef.options.map(o => ({ id: o.id, text: o.text }));
+      // Embaralha por seed+fase e relabela como a, b, c, d, e em ordem aleatória
+      const shuffled = getShuffledOptions(phaseDef, mission.seed);
+      optionsToReturn = shuffled.map((o, i) => ({
+        id: String.fromCharCode(97 + i),
+        text: o.text
+      }));
       break;
+    }
     case "unknown":
       output = `bash: ${input}: command not found (consulte 'help')`;
       kind = "unknown";

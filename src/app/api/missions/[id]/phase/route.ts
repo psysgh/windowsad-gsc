@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
-import { getPhase, PHASES } from "@/lib/phases";
+import { getPhase, getShuffledOptions, PHASES } from "@/lib/phases";
 import { buildDataset } from "@/lib/seedDataset";
 import { SCORING } from "@/lib/scoring";
 
@@ -30,7 +30,16 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
   if (!run) return NextResponse.json({ error: "PhaseRun ausente" }, { status: 500 });
 
   if (body.action === "choose_option") {
-    const opt = phaseDef.options.find(o => o.id === body.optionId);
+    // O cliente envia o display id (a, b, c, d, e) baseado na ordem que viu na tela —
+    // que é uma permutação determinística baseada na seed da missão.
+    // Aqui re-derivamos a mesma permutação para mapear de volta para a opção original.
+    const displayId = (body.optionId ?? "").toString().toLowerCase().trim();
+    if (!/^[a-e]$/.test(displayId)) {
+      return NextResponse.json({ error: "opção inválida" }, { status: 400 });
+    }
+    const shuffled = getShuffledOptions(phaseDef, mission.seed);
+    const displayIdx = displayId.charCodeAt(0) - 97;
+    const opt = shuffled[displayIdx];
     if (!opt) return NextResponse.json({ error: "opção inválida" }, { status: 400 });
 
     const isCorrect = opt.correct;
@@ -51,7 +60,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
           missionId: mission.id,
           phase: mission.currentPhase,
           kind: "option_choice",
-          input: `${phaseDef.expectedCommand} / opção ${opt.id}`,
+          input: `${phaseDef.expectedCommand} / exibida como ${displayId.toUpperCase()} (gabarito ${opt.id.toUpperCase()})`,
           output: opt.response(ds)
         }
       });

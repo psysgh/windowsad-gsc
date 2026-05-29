@@ -18,7 +18,7 @@ export const phase11: PhaseDefinition = {
       `🔇 -just-dc-user krbtgt mira um único objeto: 1 evento 4662. Dumpar tudo gera uma cascata`,
       `   de logs e queima a operação. Justificativa obrigatória antes de avançar.`,
       ``,
-      `👉 Comando esperado: secretsdump.py`
+      `💡 A ferramenta clássica da impacket faz DCSync via DRSUAPI. Há também variante via Mimikatz em host Windows.`
     ].join("\n"),
   expectedCommand: "secretsdump.py",
   requiresJustification: true,
