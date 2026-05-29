@@ -8,9 +8,7 @@ Cada aluno roda a aplicação na própria máquina. Na tela inicial informa **no
 
 ## 1. Objetivo
 
-- Avaliar conhecimento prático em técnicas ofensivas de AD sem depender de lab AD real.
-- Reduzir o uso trivial de IA durante a prova via randomização determinística por RM, ruído operacional, custos de orçamento, justificativas obrigatórias e perguntas interpretativas.
-- Produzir um relatório auditável que o professor consome para atribuir nota — e que ele pode reproduzir simplesmente lendo o RM no cabeçalho do relatório.
+- Avaliar conhecimento prático em técnicas ofensivas de AD.
 
 ## 2. Como rodar localmente
 
@@ -78,7 +76,7 @@ O relatório contém: identificação (nome + RM), seed (= RM), domínio simulad
 
 Duas formas:
 
-**Pela UI (durante uma prova travada):** botão **⚙ reset (uso do professor)** no canto superior direito da tela inicial. Pede a senha do professor. Apaga todas as missões registradas e limpa o progresso local do navegador. A senha está em `src/app/api/admin/reset/route.ts` e também em [`GABARITO_PROFESSOR.md`](GABARITO_PROFESSOR.md).
+**Pela UI (durante uma prova travada):** botão **⚙ reset (uso do professor)** no canto superior direito da tela inicial. Pede a senha do professor. Apaga todas as missões registradas e limpa o progresso local do navegador.
 
 **Pela linha de comando (para reset técnico):**
 
@@ -97,21 +95,6 @@ A missão fica gravada em `prisma/dev.db` no disco — derrubar o navegador, fec
 Cada fase é um módulo em `src/lib/phases/NN-*.ts` exportando um `PhaseDefinition`. Para alterar uma fase, edite o arquivo correspondente (contexto, comando esperado, 5 opções, deltas de score/detecção/orçamento, justificativa obrigatória, pergunta interpretativa, explicação técnica final). Para reordenar ou adicionar, ajuste `src/lib/phases/index.ts`.
 
 Veja [`docs/PHASE_AUTHORING.md`](docs/PHASE_AUTHORING.md).
-
-## 9. Customizar pontuação
-
-Constantes globais em [`src/lib/scoring.ts`](src/lib/scoring.ts):
-
-- `initialBudget`, `initialDetection`
-- `perTerminalCommandBudget`, `perTerminalCommandDetection`
-- `wrongOptionScore`, `wrongOptionDetection`, `wrongOptionBudget`
-- `noisyThreshold`, `rawScoreMax`, `stealthBonus`, `budgetExhaustedPenalty`
-
-Veja [`docs/SCORING.md`](docs/SCORING.md).
-
-## 10. Gabarito do professor
-
-[`GABARITO_PROFESSOR.md`](GABARITO_PROFESSOR.md) — referência completa para correção: as 13 fases com comando esperado, 5 opções classificadas (correta / caminho alternativo / incorreta), respostas esperadas das justificativas e perguntas interpretativas, deltas de score/detecção/orçamento, critérios sugeridos de nota e instruções para reproduzir a tentativa de qualquer aluno a partir do RM.
 
 ---
 
